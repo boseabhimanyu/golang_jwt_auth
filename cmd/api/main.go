@@ -1,6 +1,8 @@
 package main
 
 import (
+	"context"
+	"golang-jwt-auth/internal/app"
 	httpserver "golang-jwt-auth/internal/server"
 	"log"
 	"net/http"
@@ -8,6 +10,18 @@ import (
 )
 
 func main() {
+	//root context
+	ctx := context.Background()
+	a, err := app.New(ctx)
+	if err != nil {
+		log.Fatalf("Statup failed: %v", &err)
+	}
+
+	defer func() {
+		if err := a.Close(ctx); err != nil {
+			log.Printf("Shutdown warning:%v", err)
+		}
+	}()
 	router := httpserver.NewRouter()
 
 	//standard go type that runs a server
