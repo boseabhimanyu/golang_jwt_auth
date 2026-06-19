@@ -22,7 +22,7 @@ func main() {
 			log.Printf("Shutdown warning:%v", err)
 		}
 	}()
-	router := httpserver.NewRouter()
+	router := httpserver.NewRouter(a)
 
 	//standard go type that runs a server
 	srv := &http.Server{
