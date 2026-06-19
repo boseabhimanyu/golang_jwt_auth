@@ -22,5 +22,6 @@ func NewRouter(a *app.App) *gin.Engine {
 	userhandler := user.NewHandler(userSvc)
 
 	r.POST("/register", userhandler.Register)
+	r.POST("/login", userhandler.Login)
 	return r
 }
