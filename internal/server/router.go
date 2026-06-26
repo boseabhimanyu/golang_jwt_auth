@@ -39,9 +39,12 @@ func NewRouter(a *app.App) *gin.Engine {
 	api.Use(middleware.AuthRequired(a.Config.JWTSecret))
 
 	api.GET("/files", func(c *gin.Context) {
+
+		userID, _ := middleware.GetUserID(c)
 		c.JSON(http.StatusOK, gin.H{
-			"ok":    true,
-			"files": []any{},
+			"ok":     true,
+			"userId": userID,
+			"files":  []any{},
 		})
 	})
 
@@ -49,6 +52,18 @@ func NewRouter(a *app.App) *gin.Engine {
 		c.JSON(http.StatusOK, gin.H{
 			"ok":       true,
 			"products": []any{},
+		})
+	})
+
+	admin := api.Group("/admin")
+
+	admin.Use(middleware.RequireAdmin())
+
+	admin.GET("/restricted", func(c *gin.Context) {
+		role, _ := middleware.GetRole(c)
+		c.JSON(http.StatusOK, gin.H{
+			"ok":   true,
+			"role": role,
 		})
 	})
 
