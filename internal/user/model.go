@@ -26,7 +26,7 @@ type PublicUser struct {
 func ToPublic(u User) PublicUser {
 	return PublicUser{
 		ID:        u.ID.Hex(),
-		Email:     u.Role,
+		Email:     u.Email,
 		Role:      u.Role,
 		CreatedAt: u.CreatedAt,
 		UpdatedAt: u.UpdatedAt,
